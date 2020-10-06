@@ -1,0 +1,28 @@
+{
+	"jmacro": {
+		"prefix": ["macro"],
+		"body": ["{% macro ${1:name} %}","	","{% endmacro %}"],
+		"description": "a jinja macro"
+	},
+
+	"jif":{
+		"prefix": "jif",
+		"body":["{% if ${1:condn} %}"," ${2:condn} ","{% endif %}"],
+	},
+
+	"jif-else":{
+		"prefix": "jif-else",
+		"body":["{% if ${1:condn} %}"," ${2:body} ","{% else %}"," ${3:body} ","{% endif %}"],
+
+	},
+
+	"j-comment":{
+		"prefix": "jinjac",
+		"body": ["{# ${1:insert comment here} #}"]
+	},
+
+	"jinja-for":{
+		"prefix": "j-for",
+		"body": ["{% for ${1:condn} %}"," ","{% endfor %}"]
+	}
+}

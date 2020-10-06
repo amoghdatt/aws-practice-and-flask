@@ -1,0 +1,6 @@
+{
+    "python.pythonPath": "/home/amogh/.cache/pypoetry/virtualenvs/flask-practice-lhbbmv8g-py3.6",
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true
+}
