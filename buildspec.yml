@@ -5,7 +5,7 @@ phases:
         runtime-versions:
             docker: 19
     
-    pre-build:
+    pre_build:
         commands:
             - echo Logging in to Amazon ECR
             - aws --version
@@ -20,14 +20,11 @@ phases:
             - echo building image......
             - docker build -t $REPOSITORY_URI:latest .
             - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
-    
-    test:
-        commands:
             - echo running unit tests
             - docker container run $REPOSITORY_URI:latest py.test -v
             - echo tests complete ....
-
-    post-build:
+            
+    post_build:
         commands:
             - echo Build complete on `date`
             - echo time to push docker images...
