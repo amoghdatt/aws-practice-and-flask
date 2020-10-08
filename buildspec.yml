@@ -9,7 +9,7 @@ phases:
         commands:
             - echo Logging in to Amazon ECR
             - aws --version
-            - REPOSITORY_URI=446082228231.dkr.ecr.us-east-1.amazonaws.com
+            - REPOSITORY_URI=446082228231.dkr.ecr.us-east-1.amazonaws.com/snakeeyes/app
             - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
             - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
             - IMAGE_TAG=${COMMIT_HASH:=latest}
@@ -23,7 +23,7 @@ phases:
             - echo running unit tests
             - docker container run $REPOSITORY_URI:latest py.test -v
             - echo tests complete ....
-            
+
     post_build:
         commands:
             - echo Build complete on `date`
