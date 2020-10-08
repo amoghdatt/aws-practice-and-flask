@@ -2,7 +2,7 @@ from datetime import timedelta
 
 DEBUG = True
 
-SERVER_NAME = 'ec2-3-222-116-240.compute-1.amazonaws.com:8000'
+SERVER_NAME = 'ec2-3-236-193-175.compute-1.amazonaws.com:8000'
 SECRET_KEY = 'insecurefordev'
 
 # Flask-Mail
