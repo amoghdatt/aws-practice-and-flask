@@ -1,0 +1,40 @@
+version: 0.2
+
+phases:
+    install:
+        runtime-versions:
+            docker: 19
+    
+    pre-build:
+        commands:
+            - echo Logging in to Amazon ECR
+            - aws --version
+            - REPOSITORY_URI=446082228231.dkr.ecr.us-east-1.amazonaws.com
+            - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
+            - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+            - IMAGE_TAG=${COMMIT_HASH:=latest}
+        
+    build:
+        commands:
+            - echo build started on `date`
+            - echo building image......
+            - docker build -t $REPOSITORY_URI:latest .
+            - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+    
+    test:
+        commands:
+            - echo running unit tests
+            - docker container run $REPOSITORY_URI:latest py.test -v
+            - echo tests complete ....
+
+    post-build:
+        commands:
+            - echo Build complete on `date`
+            - echo time to push docker images...
+            - docker push $REPOSITORY_URI:latest
+            - docker push $REPOSITORY_URI:$IMAGE_TAG
+            - echo writing image definitions file
+            - printf '[{"name":"snakeeyes_website","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+
+artifacts:
+    files: imagedefinitions.json
